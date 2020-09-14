@@ -79,15 +79,15 @@ impl iced_baseview::Application for GainUI {
             Message::ParamChanged(param) => {
                 match param {
                     ParamID::GainLeft => {
-                        let value = self.db_range.to_value(self.gain_left_knob_state.param.normal);
+                        let value = self.db_range.to_value(*self.gain_left_knob_state.normal());
                         self.left_value_text = db_output_text(value);
                     }
                     ParamID::GainRight => {
-                        let value = self.db_range.to_value(self.gain_right_knob_state.param.normal);
+                        let value = self.db_range.to_value(*self.gain_right_knob_state.normal());
                         self.right_value_text = db_output_text(value);
                     }
                     ParamID::GainMaster => {
-                        let value = self.db_range.to_value(self.gain_master_knob_state.param.normal);
+                        let value = self.db_range.to_value(*self.gain_master_knob_state.normal());
                         self.master_value_text = db_output_text(value);
                     }
                 }
