@@ -13,10 +13,10 @@ crate-type = ["cdylib"]
 [dependencies]
 baseplug = { git = "https://github.com/wrl/baseplug.git", branch="trunk" }
 iced_audio = { git = "https://github.com/BillyDM/iced_audio", branch="iced_git" }
-iced_baseview = { git = "https://github.com/BillyDM/iced_baseview.git" }
-iced_native = { git = "https://github.com/hecrj/iced.git" }
-iced_graphics = { git = "https://github.com/hecrj/iced.git" }
-baseview = { git = "https://github.com/RustAudio/baseview.git" }
+iced_baseview = { git = "https://github.com/BillyDM/iced_baseview.git", branch="master" }
+iced_native = { git = "https://github.com/hecrj/iced.git", branch = "master" }
+iced_graphics = { git = "https://github.com/hecrj/iced.git", branch = "master" }
+baseview = { git = "https://github.com/RustAudio/baseview.git", branch = "master" }
 serde = { version = "1.0", features = ["derive"] }
 raw-window-handle = "0.3"
 vst = "0.2"
