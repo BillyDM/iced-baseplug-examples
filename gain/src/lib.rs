@@ -15,9 +15,19 @@ baseplug::model! {
     #[derive(Debug, Serialize, Deserialize)]
     struct GainModel {
         #[model(min = -90.0, max = 3.0)]
-        #[parameter(name = "gain", unit = "Decibels",
+        #[parameter(name = "gain left", unit = "Decibels",
             gradient = "Power(0.15)")]
-        gain: f32
+        gain_left: f32,
+
+        #[model(min = -90.0, max = 3.0)]
+        #[parameter(name = "gain right", unit = "Decibels",
+            gradient = "Power(0.15)")]
+        gain_right: f32,
+
+        #[model(min = -90.0, max = 3.0)]
+        #[parameter(name = "gain master", unit = "Decibels",
+            gradient = "Power(0.15)")]
+        gain_master: f32,
     }
 }
 
@@ -27,7 +37,9 @@ impl Default for GainModel {
             // "gain" is converted from dB to coefficient in the parameter handling code,
             // so in the model here it's a coeff.
             // -0dB == 1.0
-            gain: 1.0
+            gain_left: 1.0,
+            gain_right: 1.0,
+            gain_master: 1.0,
         }
     }
 }
@@ -55,15 +67,15 @@ impl Plugin for Gain {
         let output = &mut ctx.outputs[0].buffers;
 
         for i in 0..ctx.nframes {
-            output[0][i] = input[0][i] * model.gain[i];
-            output[1][i] = input[1][i] * model.gain[i];
+            output[0][i] = input[0][i] * model.gain_left[i] * model.gain_master[i];
+            output[1][i] = input[1][i] * model.gain_right[i] * model.gain_master[i];
         }
     }
 }
 
 impl baseplug::PluginUI for Gain {
     fn ui_size(&self) -> (i16, i16) {
-        (500, 300)
+        (230, 130)
     }
 
     fn ui_open(&mut self, parent: RawWindowHandle) -> WindowOpenResult {
