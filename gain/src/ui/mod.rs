@@ -35,7 +35,7 @@ impl iced_baseview::Application for GainUI {
 
         Self {
             db_range,
-
+            
             gain_left_knob_state: knob::State::new(
                 db_range.default_normal_param(),
             ),
@@ -51,7 +51,9 @@ impl iced_baseview::Application for GainUI {
             master_value_text: String::from("0.0"),
 
             db_tick_marks: vec![
-                
+                (db_range.map_to_normal(0.0), tick_marks::Tier::One),
+                (Normal::min(), tick_marks::Tier::One),
+                (Normal::max(), tick_marks::Tier::One),
             ].into()
         }
     }
