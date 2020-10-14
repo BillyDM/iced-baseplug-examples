@@ -7,6 +7,7 @@ use serde::{Serialize, Deserialize};
 use baseplug::{
     ProcessContext, Plugin, WindowOpenResult,
 };
+use iced_baseview::baseview;
 use raw_window_handle::RawWindowHandle;
 
 mod ui;
@@ -84,7 +85,7 @@ impl baseplug::PluginUI for Gain {
         let (width, height) = Self::ui_size();
 
         let settings = iced_baseview::Settings {
-            window: iced_baseview::settings::Window {
+            window: iced_baseview::window::Settings {
                 title: String::from("iced-baseplug gain"),
                 size: (width as u32, height as u32),
                 min_size: None,
