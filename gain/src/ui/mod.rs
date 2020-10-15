@@ -101,7 +101,7 @@ impl iced_baseview::Application for GainUI {
             ))
             .push(Rule::vertical(22).style(style::RuleStyle))
             .push(knob_param(
-                "M",
+                "M2",
                 &mut self.gain_master_knob_state,
                 self.master_value_text.as_str(),
                 34,
@@ -117,11 +117,15 @@ impl iced_baseview::Application for GainUI {
             .into()
     }
 
-    fn background_color() -> Color {
+    fn background_color(&self) -> Color {
         style::BACKGROUND_COLOR
     }
 
-    fn compositor_settings() -> iced_baseview::renderer::Settings {
+    fn scale_factor(&self) -> f64 {
+        1.0
+    }
+
+    fn renderer_settings() -> iced_baseview::renderer::Settings {
         iced_baseview::renderer::Settings {
             default_font: None,
             default_text_size: 20,
