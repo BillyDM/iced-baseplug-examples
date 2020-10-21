@@ -1,7 +1,5 @@
-use iced_baseview::{
-    Align, Color, Column, Command, Container, Element, Length, Text, Row, Rule,
-};
-use iced_audio::{knob, Knob, LogDBRange, tick_marks, Normal};
+use iced_audio::{knob, tick_marks, Knob, LogDBRange, Normal};
+use iced_baseview::{Align, Color, Column, Command, Container, Element, Length, Row, Rule, Text, executor};
 
 mod style;
 
@@ -27,35 +25,37 @@ pub struct GainUI {
 }
 
 impl iced_baseview::Application for GainUI {
-    type AudioToGuiMessage = ();
+    type Executor = executor::Default;
     type Message = Message;
+    type Flags = ();
 
-    fn new() -> Self {
+    fn new(_flags: Self::Flags) -> (Self, Command<Self::Message>) {
         let db_range = LogDBRange::new(-90.0, 3.0, 0.8.into());
+        (
+            Self {
+                db_range,
 
-        Self {
-            db_range,
-            
-            gain_left_knob_state: knob::State::new(
-                db_range.default_normal_param(),
-            ),
-            gain_right_knob_state: knob::State::new(
-                db_range.default_normal_param(),
-            ),
-            gain_master_knob_state: knob::State::new(
-                db_range.default_normal_param(),
-            ),
+                gain_left_knob_state: knob::State::new(db_range.default_normal_param()),
+                gain_right_knob_state: knob::State::new(db_range.default_normal_param()),
+                gain_master_knob_state: knob::State::new(db_range.default_normal_param()),
 
-            left_value_text: String::from("0.0"),
-            right_value_text: String::from("0.0"),
-            master_value_text: String::from("0.0"),
+                left_value_text: String::from("0.0"),
+                right_value_text: String::from("0.0"),
+                master_value_text: String::from("0.0"),
 
-            db_tick_marks: vec![
-                (db_range.map_to_normal(0.0), tick_marks::Tier::One),
-                (Normal::min(), tick_marks::Tier::One),
-                (Normal::max(), tick_marks::Tier::One),
-            ].into()
-        }
+                db_tick_marks: vec![
+                    (db_range.map_to_normal(0.0), tick_marks::Tier::One),
+                    (Normal::min(), tick_marks::Tier::One),
+                    (Normal::max(), tick_marks::Tier::One),
+                ]
+                .into(),
+            },
+            Command::none(),
+        )
+    }
+
+    fn title(&self) -> String {
+        String::from("iced-baseplug-examples gain")
     }
 
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
@@ -89,7 +89,7 @@ impl iced_baseview::Application for GainUI {
                 self.left_value_text.as_str(),
                 30,
                 &self.db_tick_marks,
-                Message::GainLeftChanged
+                Message::GainLeftChanged,
             ))
             .push(knob_param(
                 "R",
@@ -97,16 +97,16 @@ impl iced_baseview::Application for GainUI {
                 self.right_value_text.as_str(),
                 30,
                 &self.db_tick_marks,
-                Message::GainRightChanged
+                Message::GainRightChanged,
             ))
             .push(Rule::vertical(22).style(style::RuleStyle))
             .push(knob_param(
-                "M2",
+                "M",
                 &mut self.gain_master_knob_state,
                 self.master_value_text.as_str(),
                 34,
                 &self.db_tick_marks,
-                Message::GainMasterChanged
+                Message::GainMasterChanged,
             ));
 
         Container::new(content)

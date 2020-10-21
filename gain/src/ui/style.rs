@@ -1,5 +1,5 @@
-use iced_baseview::{Color, rule};
 use iced_audio::{knob, tick_marks};
+use iced_baseview::{rule, Color};
 
 pub const BACKGROUND_COLOR: Color = Color::from_rgb(
     0x16 as f32 / 255.0,

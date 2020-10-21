@@ -2,12 +2,9 @@
 #![feature(generic_associated_types)]
 #![feature(min_specialization)]
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-use baseplug::{
-    ProcessContext, Plugin, WindowOpenResult,
-};
-use iced_baseview::baseview;
+use baseplug::{Plugin, ProcessContext, WindowOpenResult};
 use raw_window_handle::RawWindowHandle;
 
 mod ui;
@@ -45,7 +42,7 @@ impl Default for GainModel {
     }
 }
 
-struct Gain { }
+struct Gain {}
 
 impl Plugin for Gain {
     const NAME: &'static str = "iced-baseplug gain";
@@ -75,31 +72,29 @@ impl Plugin for Gain {
 }
 
 impl baseplug::PluginUI for Gain {
-    type Handle = baseview::WindowHandle;
+    type Handle = iced_baseview::WindowHandle;
 
     fn ui_size() -> (i16, i16) {
         (230, 130)
     }
 
     fn ui_open(parent: RawWindowHandle) -> WindowOpenResult<Self::Handle> {
-        let (width, height) = Self::ui_size();
-
         let settings = iced_baseview::Settings {
-            window: iced_baseview::window::Settings {
-                title: String::from("iced-baseplug gain"),
-                size: (width as u32, height as u32),
-                min_size: None,
-                max_size: None,
-                resizable: false,
+            window: iced_baseview::settings::Window {
+                size: (Self::ui_size().0 as u32, Self::ui_size().1 as u32),
             },
+            flags: (),
         };
 
-        Ok(iced_baseview::Handler::<ui::GainUI>::open(settings, Some(parent)))
+        let handle = iced_baseview::Runner::<ui::GainUI>::open(
+            settings,
+            iced_baseview::Parent::WithParent(parent),
+        );
+
+        Ok(handle)
     }
 
-    fn ui_close(_handle: Self::Handle) {
-        
-    }
+    fn ui_close(_handle: Self::Handle) {}
 }
 
 baseplug::vst2!(Gain, b"tAnE");
