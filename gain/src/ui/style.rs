@@ -48,7 +48,7 @@ pub struct KnobStyle;
 impl KnobStyle {
     const ACTIVE_STYLE: knob::CircleStyle = knob::CircleStyle {
         color: KNOB_COLOR,
-        border_width: 1,
+        border_width: 1.0,
         border_color: KNOB_BORDER_COLOR,
         notch: knob::NotchShape::Line(knob::LineNotch {
             color: KNOB_NOTCH_COLOR,
@@ -79,18 +79,18 @@ impl knob::StyleSheet for KnobStyle {
         Some(knob::TickMarksStyle {
             style: tick_marks::Style {
                 tier_1: tick_marks::Shape::Line {
-                    length: 3,
-                    width: 2,
+                    length: 3.0,
+                    width: 2.0,
                     color: TICK_MARK_COLOR,
                 },
                 tier_2: tick_marks::Shape::Line {
-                    length: 2,
-                    width: 2,
+                    length: 2.0,
+                    width: 2.0,
                     color: TICK_MARK_COLOR,
                 },
                 tier_3: tick_marks::Shape::Line {
-                    length: 2,
-                    width: 2,
+                    length: 2.0,
+                    width: 2.0,
                     color: TICK_MARK_COLOR,
                 },
             },
@@ -105,7 +105,7 @@ impl rule::StyleSheet for RuleStyle {
         rule::Style {
             color: RULE_COLOR,
             width: 1,
-            radius: 0,
+            radius: 0.0,
             fill_mode: rule::FillMode::Percent(50.0),
         }
     }

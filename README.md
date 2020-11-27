@@ -15,4 +15,4 @@ WIP
 3. Load the resulting `libgain.so` (`libgain.dll` on Windows) file into a VST2 Host.
 
 [`baseplug`]: https://github.com/wrl/baseplug
-[`iced_audio`]: https://github.com/BillyDM/iced_audio/tree/iced_git
+[`iced_audio`]: https://github.com/BillyDM/iced_audio

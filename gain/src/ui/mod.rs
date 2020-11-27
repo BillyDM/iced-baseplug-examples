@@ -1,5 +1,7 @@
 use iced_audio::{knob, tick_marks, Knob, LogDBRange, Normal};
-use iced_baseview::{Align, Color, Column, Command, Container, Element, Length, Row, Rule, Text, executor};
+use iced_baseview::{
+    executor, Align, Color, Column, Command, Container, Element, Length, Row, Rule, Text,
+};
 
 mod style;
 
@@ -101,7 +103,7 @@ impl iced_baseview::Application for GainUI {
             ))
             .push(Rule::vertical(22).style(style::RuleStyle))
             .push(knob_param(
-                "M",
+                "M6",
                 &mut self.gain_master_knob_state,
                 self.master_value_text.as_str(),
                 34,
