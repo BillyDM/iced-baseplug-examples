@@ -72,7 +72,7 @@ impl Plugin for Gain {
 }
 
 impl baseplug::PluginUI for Gain {
-    type Handle = iced_baseview::WindowHandle;
+    type Handle = iced_baseview::WindowHandle<iced_baseview::Runner<ui::GainUI>>;
 
     fn ui_size() -> (i16, i16) {
         (230, 130)
@@ -81,12 +81,13 @@ impl baseplug::PluginUI for Gain {
     fn ui_open(parent: RawWindowHandle) -> WindowOpenResult<Self::Handle> {
         let settings = iced_baseview::Settings {
             window: iced_baseview::settings::Window {
-                size: (Self::ui_size().0 as u32, Self::ui_size().1 as u32),
+                logical_size: (Self::ui_size().0 as u32, Self::ui_size().1 as u32),
+                scale_policy: iced_baseview::WindowScalePolicy::SystemScaleFactor,
             },
             flags: (),
         };
 
-        let handle = iced_baseview::Runner::<ui::GainUI>::open(
+        let (handle, _) = iced_baseview::Runner::<ui::GainUI>::open(
             settings,
             iced_baseview::Parent::WithParent(parent),
         );
