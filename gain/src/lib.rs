@@ -81,6 +81,7 @@ impl baseplug::PluginUI for Gain {
     fn ui_open(parent: RawWindowHandle) -> WindowOpenResult<Self::Handle> {
         let settings = iced_baseview::Settings {
             window: iced_baseview::settings::Window {
+                title: String::from("iced-baseplug-examples gain"),
                 logical_size: (Self::ui_size().0 as u32, Self::ui_size().1 as u32),
                 scale_policy: iced_baseview::WindowScalePolicy::SystemScaleFactor,
             },

@@ -56,10 +56,6 @@ impl iced_baseview::Application for GainUI {
         )
     }
 
-    fn title(&self) -> String {
-        String::from("iced-baseplug-examples gain")
-    }
-
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
         match message {
             Message::GainLeftChanged(normal) => {
