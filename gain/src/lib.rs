@@ -2,10 +2,9 @@
 #![feature(generic_associated_types)]
 #![feature(min_specialization)]
 
-use serde::{Deserialize, Serialize};
-
 use baseplug::{Plugin, ProcessContext, WindowOpenResult};
 use raw_window_handle::RawWindowHandle;
+use serde::{Deserialize, Serialize};
 
 mod ui;
 
@@ -72,7 +71,7 @@ impl Plugin for Gain {
 }
 
 impl baseplug::PluginUI for Gain {
-    type Handle = iced_baseview::WindowHandle<iced_baseview::Runner<ui::GainUI>>;
+    type Handle = iced_baseview::Handle;
 
     fn ui_size() -> (i16, i16) {
         (230, 130)
@@ -96,7 +95,9 @@ impl baseplug::PluginUI for Gain {
         Ok(handle)
     }
 
-    fn ui_close(_handle: Self::Handle) {}
+    fn ui_close(mut handle: Self::Handle) {
+        handle.request_window_close();
+    }
 }
 
 baseplug::vst2!(Gain, b"tAnE");
