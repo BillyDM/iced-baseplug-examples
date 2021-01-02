@@ -3,7 +3,7 @@
 #![feature(min_specialization)]
 
 use baseplug::{Plugin, ProcessContext, WindowOpenResult};
-use baseview::{Parent, Size, WindowOpenOptions, WindowScalePolicy};
+use baseview::{Size, WindowOpenOptions, WindowScalePolicy};
 use raw_window_handle::RawWindowHandle;
 use serde::{Deserialize, Serialize};
 
@@ -72,7 +72,7 @@ impl Plugin for Gain {
 }
 
 impl baseplug::PluginUI for Gain {
-    type Handle = iced_baseview::Handle;
+    type Handle = ();
 
     fn ui_size() -> (i16, i16) {
         (230, 130)
@@ -84,19 +84,16 @@ impl baseplug::PluginUI for Gain {
                 title: String::from("iced-baseplug-examples gain"),
                 size: Size::new(Self::ui_size().0 as f64, Self::ui_size().1 as f64),
                 scale: WindowScalePolicy::SystemScaleFactor,
-                parent: Parent::WithParent(parent),
             },
             flags: (),
         };
 
-        let (handle, _) = iced_baseview::Runner::<ui::GainUI>::open(settings);
+        iced_baseview::IcedWindow::<ui::GainUI>::open_parented(&parent, settings);
 
-        Ok(handle)
+        Ok(())
     }
 
-    fn ui_close(mut handle: Self::Handle) {
-        handle.request_window_close();
-    }
+    fn ui_close(_handle: Self::Handle) {}
 }
 
 baseplug::vst2!(Gain, b"tAnE");
