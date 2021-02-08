@@ -4,7 +4,7 @@
 
 use baseplug::{Plugin, ProcessContext, WindowOpenResult};
 use baseview::{Size, WindowOpenOptions, WindowScalePolicy};
-use raw_window_handle::RawWindowHandle;
+use raw_window_handle::{HasRawWindowHandle, RawWindowHandle};
 use serde::{Deserialize, Serialize};
 
 mod ui;
@@ -72,7 +72,7 @@ impl Plugin for Gain {
 }
 
 impl baseplug::PluginUI for Gain {
-    type Handle = ();
+    type Handle = iced_baseview::WindowHandle<ui::Message>;
 
     fn ui_size() -> (i16, i16) {
         (230, 130)
@@ -88,12 +88,31 @@ impl baseplug::PluginUI for Gain {
             flags: (),
         };
 
-        iced_baseview::IcedWindow::<ui::GainUI>::open_parented(&parent, settings);
+        // TODO: Fix this mess in baseplug.
+        struct ParentWindow(RawWindowHandle);
+        unsafe impl HasRawWindowHandle for ParentWindow {
+            fn raw_window_handle(&self) -> RawWindowHandle {
+                self.0
+            }
+        }
 
-        Ok(())
+        let handle =
+            iced_baseview::IcedWindow::<ui::GainUI>::open_parented(&ParentWindow(parent), settings);
+
+        Ok(handle)
     }
 
-    fn ui_close(_handle: Self::Handle) {}
+    fn ui_param_notify(
+        _handle: &Self::Handle,
+        _param: &'static baseplug::Param<Self, <Self::Model as baseplug::Model<Self>>::Smooth>,
+        _val: f32,
+    ) {
+        // TODO: implement this
+    }
+
+    fn ui_close(mut handle: Self::Handle) {
+        handle.close_window().unwrap();
+    }
 }
 
 baseplug::vst2!(Gain, b"tAnE");
