@@ -4,7 +4,7 @@
 
 use baseplug::{Plugin, ProcessContext, WindowOpenResult};
 use baseview::{Size, WindowOpenOptions, WindowScalePolicy};
-use raw_window_handle::{HasRawWindowHandle, RawWindowHandle};
+use raw_window_handle::HasRawWindowHandle;
 use serde::{Deserialize, Serialize};
 
 mod ui;
@@ -78,7 +78,7 @@ impl baseplug::PluginUI for Gain {
         (230, 130)
     }
 
-    fn ui_open(parent: RawWindowHandle) -> WindowOpenResult<Self::Handle> {
+    fn ui_open(parent: &impl HasRawWindowHandle) -> WindowOpenResult<Self::Handle> {
         let settings = iced_baseview::Settings {
             window: WindowOpenOptions {
                 title: String::from("iced-baseplug-examples gain"),
@@ -88,16 +88,7 @@ impl baseplug::PluginUI for Gain {
             flags: (),
         };
 
-        // TODO: Fix this mess in baseplug.
-        struct ParentWindow(RawWindowHandle);
-        unsafe impl HasRawWindowHandle for ParentWindow {
-            fn raw_window_handle(&self) -> RawWindowHandle {
-                self.0
-            }
-        }
-
-        let handle =
-            iced_baseview::IcedWindow::<ui::GainUI>::open_parented(&ParentWindow(parent), settings);
+        let handle = iced_baseview::IcedWindow::<ui::GainUI>::open_parented(parent, settings);
 
         Ok(handle)
     }
