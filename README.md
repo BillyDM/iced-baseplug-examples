@@ -1,7 +1,7 @@
 # iced baseplug examples
 Simple examples to demonstrate full-stack Rust audio plugin dev with [`baseplug`] and [`iced_audio`]
 
-WIP
+WIP (The GUI knobs do nothing currently. This will be solved once [`baseplug`] gets official functionality for syncing parameters between backend & GUI.)
 
 <div align="center">
     <img src="/screenshots/gain.png">
