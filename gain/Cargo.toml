@@ -12,7 +12,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 baseplug = { git = "https://github.com/wrl/baseplug.git", rev = "9cec68f31cca9c0c7a1448379f75d92bbbc782a8" }
-baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "e7a6c661eff90000b5a62d28fb8e1eec3997d2aa" }
+baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "f6e99e9aa6f5aeb6b721cb05e4d882a51d995909" }
 iced_baseview = { git = "https://github.com/BillyDM/iced_baseview", branch="main", features=["canvas"] }
 iced_audio = "0.7"
 serde = { version = "1.0", features = ["derive"] }
