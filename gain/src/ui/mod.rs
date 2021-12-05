@@ -1,6 +1,7 @@
 use iced_audio::{knob, tick_marks, Knob, LogDBRange, Normal};
 use iced_baseview::{
     executor, Align, Color, Column, Command, Container, Element, Length, Row, Rule, Text,
+    WindowQueue,
 };
 
 mod style;
@@ -56,7 +57,11 @@ impl iced_baseview::Application for GainUI {
         )
     }
 
-    fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
+    fn update(
+        &mut self,
+        _window_queue: &mut WindowQueue,
+        message: Self::Message,
+    ) -> Command<Self::Message> {
         match message {
             Message::GainLeftChanged(normal) => {
                 let value = self.db_range.unmap_to_value(normal);

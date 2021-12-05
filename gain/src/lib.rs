@@ -102,7 +102,7 @@ impl baseplug::PluginUI for Gain {
     }
 
     fn ui_close(mut handle: Self::Handle) {
-        handle.close_window().unwrap();
+        handle.close_window();
     }
 }
 
